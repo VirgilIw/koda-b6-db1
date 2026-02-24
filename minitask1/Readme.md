@@ -1,4 +1,4 @@
-# library
+# ERD Library
 
 ```mermaid
 erDiagram
@@ -6,9 +6,20 @@ erDiagram
 BOOKS {
     INT ID PK
     STRING NAME
-    STRING AUTHOR
+    TIMESTAMP PUBLICATION_YEAR
     INT CATEGORY_ID FK
     INT BOOKSHELF_ID FK
+}
+
+BOOK_AUTHORS {
+    INT ID PK
+    INT BOOK_ID FK
+    INT AUTHOR_ID FK 
+}
+
+AUTHORS {
+    INT ID PK
+    STRING NAME
 }
 
 CATEGORY {
@@ -43,6 +54,8 @@ BORROW_TRANSACTION {
 CATEGORY ||--|{ BOOKS : HAS
 BOOKSHELF ||--|{ BOOKS : STORED_IN
 BOOKS ||--|{ BORROW_TRANSACTION : BORROWED
+AUTHORS ||--o{ BOOK_AUTHORS : WRITTER_NAME
+BOOKS ||--o{ BOOK_AUTHORS : WRITTER
 BORROWER ||--|{ BORROW_TRANSACTION : MAKES
 OFFICER ||--|{ BORROW_TRANSACTION : HANDLES
 
@@ -50,3 +63,4 @@ OFFICER ||--|{ BORROW_TRANSACTION : HANDLES
 ```
 <!-- 1 KATEGORI BISA BANYAK BUKU -->
 <!-- 1 BUKU DI SATU RAK -->
+<!-- suatu data sudah direpresentasikan oleh entitas lain, maka di tabel kita cukup menyimpan FK-nya saja, tidak perlu mengulang datanya. -->
