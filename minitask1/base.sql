@@ -22,6 +22,22 @@ add constraint "books_bookshelf"
 foreign key ("bookshelf_id")
 REFERENCES "bookshelf" ("id");
 
+alter table "books"
+drop column "book_author";
+
+create table "authors" (
+    "id" int generated always as identity primary key,
+    "name" varchar(255) not null
+)
+
+create table "book_authors" (
+    "id" int generated always as identity primary key,
+    "book_id" int,
+    "author_id" int,
+    foreign key ("book_id") references "books"("id"),
+    foreign key ("author_id") references "authors"("id"),
+    unique("book_id", "author_id")
+)
 
 SELECT "id", "book_name", "book_author", "publication_year" from "books";
 
