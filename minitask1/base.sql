@@ -25,6 +25,23 @@ REFERENCES "bookshelf" ("id");
 alter table "books"
 drop column "book_author";
 
+alter table "books"
+drop column "category_id";
+
+create table "category" (
+    "id" int generated always as identity primary key,
+    "category_name" varchar(255) not null unique
+)
+
+create table "book_categories" (
+    "id" int generated always as identity primary key,
+    "book_id" int not null,
+    "category_id" int not null,
+    foreign key ("book_id") references "books"("id"),
+    foreign key ("category_id") references "category"("id"),
+    unique("book_id", "category_id")
+);
+
 create table "authors" (
     "id" int generated always as identity primary key,
     "name" varchar(255) not null
@@ -38,6 +55,10 @@ create table "book_authors" (
     foreign key ("author_id") references "authors"("id"),
     unique("book_id", "author_id")
 )
+
+alter table "book_authors"
+alter column "book_id" set not null,
+alter column "author_id" set not null;
 
 SELECT "id", "book_name", "book_author", "publication_year" from "books";
 
